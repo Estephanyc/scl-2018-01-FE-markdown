@@ -4,18 +4,30 @@ const fs = require('fs');
 mdLinks = (path, options) =>{
   return new Promise((resolve, reject) => { 
     validate.isFileOrDirectory(path).then((response)=>{
-      console.log(response);
       if (response === 'file') {
-        if (validate.isMarkDown(path)) {
-          read.file(path).then((data) => {
-            let links = markdownLinkExtractor(path, data);
-            validate.hasLinks(links) ? resolve(links) : reject('No se encontrarón Enlaces');
-          });
-        } else {
-          reject('No es un archivo mark down');
-        }
+        processFile(path).then((response)=>{
+          resolve(response);
+        }).catch((err)=>{
+          reject(err);
+        });
       } else if (response === 'directory') {
-        console.log('es directorio');
+        read.directory(path).then((files) => {
+          let array = [];
+          files.forEach(file => {
+            array.push(processFile(path + file).then((response) => {
+              console.log(response)
+              return response;
+            }).catch((err)=>{
+              // console.log(err);
+            }));     
+          });
+          Promise.all(array).then(values => {
+            console.log(values)
+            if (values !== undefined) {
+              resolve(values);
+            }
+          }); 
+        });
       }
     }).catch((err)=>{
       reject(err);
@@ -25,6 +37,19 @@ mdLinks = (path, options) =>{
 
 let read = {};
 let validate = {};
+
+processFile = (path)=>{
+  return new Promise((resolve, reject) => {
+    if (validate.isMarkDown(path)) {
+      read.file(path).then((data) => {
+        let links = markdownLinkExtractor(path, data);
+        validate.hasLinks(links) ? resolve(links) : reject('No se encontrarón Enlaces');
+      });
+    } else {
+      reject('No es un archivo mark down');
+    }
+  });
+};
 read.file = (file) =>{
   return new Promise((resolve, reject) =>{
     fs.readFile(file, 'utf8', (err, data) => {
@@ -32,8 +57,12 @@ read.file = (file) =>{
     });
   });
 };
-read.directory = ()=> {
-
+read.directory = (path)=> {
+  return new Promise((resolve, reject) => {
+    fs.readdir(path, 'utf8', (err, data) => {
+      err ? reject(err) : resolve(data);
+    });
+  });
 };
 validate.isFileOrDirectory = (path)=>{
   return new Promise((resolve, reject) => {
