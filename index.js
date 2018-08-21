@@ -1,47 +1,55 @@
 const Marked = require('marked');
 const fs = require('fs');
 
-mdLinks = (path, options) =>{
-  return new Promise((resolve, reject) => { 
-    validate.isFileOrDirectory(path).then((response)=>{
+mdLinks = (path, options) => {
+  return new Promise((resolve, reject) => {
+    validate.isFileOrDirectory(path).then((response) => {
       if (response === 'file') {
-        processFile(path).then((response)=>{
+        process.file(path).then((response) => {
           resolve(response);
-        }).catch((err)=>{
+        }).catch((err) => {
           reject(err);
         });
       } else if (response === 'directory') {
-        read.directory(path).then((files) => {
-          let array = [];
-          files.forEach(file => {
-            array.push(processFile(path + file).then((response) => {
-              console.log(response)
-              return response;
-            }).catch((err)=>{
-              // console.log(err);
-            }));     
-          });
-          Promise.all(array).then(values => {
-            console.log(values)
-            if (values !== undefined) {
-              resolve(values);
-            }
-          }); 
+        process.directory(path).then((response) => {
+          resolve(response);
+        }).catch((err) => {
+          reject(err);
         });
       }
-    }).catch((err)=>{
+    }).catch((err) => {
       reject(err);
     });
   });
 };
 
-let read = {};
 let validate = {};
-
-processFile = (path)=>{
+let process = {};
+process.directory = (path) =>{
+  return new Promise((resolve, reject) => {
+    fs.readdir(path, 'utf8', (err, files) => {
+      console.log(files);
+      let promises = [];
+      files.forEach(file => {
+        if (validate.isMarkDown(file)) {
+          promises.push(process.file(path + file).then((response) => {
+            return response;
+          }).catch((err) => {
+            console.log(err);
+          }));
+        }
+      });
+      Promise.all(promises).then(values => {
+        resolve(values);
+      });
+    });
+  });
+};
+process.file = (path) => {
   return new Promise((resolve, reject) => {
     if (validate.isMarkDown(path)) {
-      read.file(path).then((data) => {
+      fs.readFile(path, 'utf8', (err, data) => {
+        if (err) reject(err);
         let links = markdownLinkExtractor(path, data);
         validate.hasLinks(links) ? resolve(links) : reject('No se encontrarón Enlaces');
       });
@@ -50,21 +58,7 @@ processFile = (path)=>{
     }
   });
 };
-read.file = (file) =>{
-  return new Promise((resolve, reject) =>{
-    fs.readFile(file, 'utf8', (err, data) => {
-      err ? reject(err) : resolve(data);
-    });
-  });
-};
-read.directory = (path)=> {
-  return new Promise((resolve, reject) => {
-    fs.readdir(path, 'utf8', (err, data) => {
-      err ? reject(err) : resolve(data);
-    });
-  });
-};
-validate.isFileOrDirectory = (path)=>{
+validate.isFileOrDirectory = (path) => {
   return new Promise((resolve, reject) => {
     fs.stat(path, function(err, stats) {
       if (err !== null) {
@@ -73,15 +67,15 @@ validate.isFileOrDirectory = (path)=>{
         resolve('file');
       } else if (stats.isDirectory()) {
         resolve('directory');
-      }       
+      }
     });
   });
 };
-validate.isMarkDown = (file) =>{
+validate.isMarkDown = (file) => {
   let allowedExtension = /(\.md)$/i;
   return result = !allowedExtension.exec(file) ? false : true;
 };
-validate.hasLinks = (array) =>{
+validate.hasLinks = (array) => {
   return result = array.length === 0 ? false : true;
 };
 function markdownLinkExtractor(path, markdown) {
@@ -112,5 +106,5 @@ function markdownLinkExtractor(path, markdown) {
   Marked(markdown, { renderer: renderer });
 
   return links;
-}; 
-module.exports = mdLinks; 
+};
+module.exports = mdLinks;
