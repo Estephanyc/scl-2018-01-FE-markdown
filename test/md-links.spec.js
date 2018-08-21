@@ -16,3 +16,7 @@ test('La promesa deberia fallar si no es un archivo md', () => {
   expect.assertions(1);
   return mdLinks('./md/file.js').catch(e => expect(e).toMatch('No es un archivo mark down'));
 });
+test('La promesa deberia fallar si no es un archivo ni un directorio', () => {
+  expect.assertions(1);
+  return mdLinks('./md/f').catch(e => expect(e).toMatch('No es un archivo ni directorio'));
+});
