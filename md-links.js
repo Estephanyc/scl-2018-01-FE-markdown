@@ -1,7 +1,7 @@
 const Marked = require('marked');
 const fs = require('fs');
 const fetch = require('node-fetch');
-let validate = false;
+let validate = stats = false;
 let mdLinks = {};
 
 mdLinks.mdLinks = (path, options) => {
@@ -9,28 +9,19 @@ mdLinks.mdLinks = (path, options) => {
     if (!path)reject('Ingrese un archivo o directorio');
     if (options) {
       if (options.validate) validate = true;
-      if (options.stats) console.log('stats');
+      if (options.stats) stats = true, validate = true; 
     }
     mdLinks.validateIsFileOrDirectory(path).then((response) => {
       if (response === 'file') {
-        mdLinks.processFile(path).then((response) => {
-          resolve(response);
-        }).catch((err) => {
-          reject(err);
-        });
+        mdLinks.processFile(path).then(response => resolve(response))
+          .catch(err => reject(err));
       } else if (response === 'directory') {
-        mdLinks.processDirectory(path).then((response) => {
-          resolve(response);
-        }).catch((err) => {
-          reject(err);
-        });
+        mdLinks.processDirectory(path).then(response => resolve(response))
+          .catch(err => reject(err));
       }
-    }).catch((err) => {
-      reject(err);
-    });
+    }).catch(err => reject(err));
   });
 };
-
 mdLinks.processDirectory = (path) =>{
   return new Promise((resolve, reject) => {
     fs.readdir(path, 'utf8', (err, files) => {
@@ -38,19 +29,11 @@ mdLinks.processDirectory = (path) =>{
       let promises = [];
       files.forEach(file => {
         if (mdLinks.validateIsMarkDown(file)) {
-          promises.push(mdLinks.processFile(path + file).then((response) => {
-            return response;
-          }).catch((err) => {
-            reject(err);
-          }));
+          promises.push(mdLinks.processFile(path + file).then(response => response)
+            .catch(err => reject(err)));
         }
       });
-      Promise.all(promises).then(values => {
-        let array = values.reduce((elem1, elem2) => {
-          return elem1.concat(elem2);
-        });
-        resolve(array);
-      });
+      Promise.all(promises).then(values => resolve(values.reduce((elem1, elem2) => elem1.concat(elem2))));
     });
   });
 };
@@ -60,16 +43,16 @@ mdLinks.processFile = (path) => {
       fs.readFile(path, 'utf8', (err, data) => {
         if (err) reject(err);
         let links = markdownLinkExtractor(path, data);
-        if (validate) mdLinks.validateUrl(links).then((values) =>{
-          Promise.all(values).then((values) =>{
-            resolve(values);
+        if (validate) {
+          mdLinks.validateUrl(links).then((values) =>{
+            Promise.all(values).then((values) =>{
+              if (stats) resolve(mdLinks.stats(values));
+              else resolve(values);
+            });
           });
-        });
-        else resolve(links);
+        } else resolve(links);
       });
-    } else {
-      reject('No es un archivo markdown');
-    }
+    } else reject('No es un archivo markdown');
   });
 };
 mdLinks.validateUrl = (links) =>{
@@ -94,19 +77,21 @@ mdLinks.validateUrl = (links) =>{
 mdLinks.validateIsFileOrDirectory = (path) => {
   return new Promise((resolve, reject) => {
     fs.stat(path, function(err, stats) {
-      if (err !== null) {
-        reject('No es un archivo ni directorio');
-      } else if (stats.isFile()) {
-        resolve('file');
-      } else if (stats.isDirectory()) {
-        resolve('directory');
-      }
+      if (err !== null) reject('No es un archivo ni directorio');
+      else if (stats.isFile()) resolve('file');
+      else if (stats.isDirectory()) resolve('directory');
     });
   });
 };
 mdLinks.validateIsMarkDown = (file) => {
   let allowedExtension = /(\.md)$/i;
   return result = !allowedExtension.exec(file) ? false : true;
+};
+mdLinks.stats = (links)=>{
+  return [{ total: links.length,
+    ok: links.filter(link => link.ok === 'OK').length,
+    fails: links.filter(link => link.ok === 'fail').length, 
+  }];
 };
 function markdownLinkExtractor(path, markdown) {
   const links = [];

@@ -1,21 +1,19 @@
 #!/usr/bin/env node
-
-const [, , ...args] = process.argv;
-
 const mdLinks = require('./md-links').mdLinks;
-let options = {};
-
-if (args.indexOf('--validate') >= 0) options.validate = true;
-if (args.indexOf('--stats') >= 0) options.stats = true;
 
 if (require.main === module) {
+  const [, , ...args] = process.argv;
+  let options = {};
+  if (args.includes('--validate')) options.validate = true;
+  if (args.includes('--stats')) options.stats = true;
+
   mdLinks(args[0], options).then((links) => {
     links.forEach(element => {
-      if (options.validate) {
-        console.log(element.path + ' : ' + element.href + ' : ' + element.text + ' : ' + element.ok + ' : ' + element.status);
-      } else {
-        console.log(element.path + ' : ' + element.href + ' : ' + element.text);
-      }
+      let result = '';
+      if (options.validate) result = `${element.path} : ${element.href} : ${element.text} : ${element.ok} : ${element.status}`;
+      else if (options.stats) result = `total: ${element.total} ok : ${element.ok} fails: ${element.fails}`;
+      else result = `${element.path} : ${element.href} : ${element.text}`;
+      console.log(result);
     });
   }).catch((error) => {
     console.error(error);
