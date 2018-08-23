@@ -1,17 +1,25 @@
 const Marked = require('marked');
 const fs = require('fs');
+const fetch = require('node-fetch');
+let validate = false;
+let mdLinks = {};
 
-mdLinks = (path, options) => {
+mdLinks.mdLinks = (path, options) => {
   return new Promise((resolve, reject) => {
-    validate.isFileOrDirectory(path).then((response) => {
+    if (!path)reject('Ingrese un archivo o directorio');
+    if (options) {
+      if (options.validate) validate = true;
+      if (options.stats) console.log('stats');
+    }
+    mdLinks.validateIsFileOrDirectory(path).then((response) => {
       if (response === 'file') {
-        process.file(path).then((response) => {
+        mdLinks.processFile(path).then((response) => {
           resolve(response);
         }).catch((err) => {
           reject(err);
         });
       } else if (response === 'directory') {
-        process.directory(path).then((response) => {
+        mdLinks.processDirectory(path).then((response) => {
           resolve(response);
         }).catch((err) => {
           reject(err);
@@ -23,42 +31,67 @@ mdLinks = (path, options) => {
   });
 };
 
-let validate = {};
-let process = {};
-process.directory = (path) =>{
+mdLinks.processDirectory = (path) =>{
   return new Promise((resolve, reject) => {
     fs.readdir(path, 'utf8', (err, files) => {
       console.log(files);
       let promises = [];
       files.forEach(file => {
-        if (validate.isMarkDown(file)) {
-          promises.push(process.file(path + file).then((response) => {
+        if (mdLinks.validateIsMarkDown(file)) {
+          promises.push(mdLinks.processFile(path + file).then((response) => {
             return response;
           }).catch((err) => {
-            console.log(err);
+            reject(err);
           }));
         }
       });
       Promise.all(promises).then(values => {
-        resolve(values);
+        let array = values.reduce((elem1, elem2) => {
+          return elem1.concat(elem2);
+        });
+        resolve(array);
       });
     });
   });
 };
-process.file = (path) => {
+mdLinks.processFile = (path) => {
   return new Promise((resolve, reject) => {
-    if (validate.isMarkDown(path)) {
+    if (mdLinks.validateIsMarkDown(path)) {
       fs.readFile(path, 'utf8', (err, data) => {
         if (err) reject(err);
         let links = markdownLinkExtractor(path, data);
-        validate.hasLinks(links) ? resolve(links) : reject('No se encontrarón Enlaces');
+        if (validate) mdLinks.validateUrl(links).then((values) =>{
+          Promise.all(values).then((values) =>{
+            resolve(values);
+          });
+        });
+        else resolve(links);
       });
     } else {
-      reject('No es un archivo mark down');
+      reject('No es un archivo markdown');
     }
   });
 };
-validate.isFileOrDirectory = (path) => {
+mdLinks.validateUrl = (links) =>{
+  return new Promise((resolve, reject) => {
+    let promises = [];
+    links.forEach((link)=>{
+      promises.push(fetch(link.href)
+        .then(res => {
+          link.status = res.status;
+          link.ok = res.statusText;
+          return link;
+        }).catch((e) =>{
+          link.status = 'fail';
+          link.ok = 'fail';
+          return link;
+        })
+      );
+      resolve(promises);
+    });
+  });
+};
+mdLinks.validateIsFileOrDirectory = (path) => {
   return new Promise((resolve, reject) => {
     fs.stat(path, function(err, stats) {
       if (err !== null) {
@@ -71,12 +104,9 @@ validate.isFileOrDirectory = (path) => {
     });
   });
 };
-validate.isMarkDown = (file) => {
+mdLinks.validateIsMarkDown = (file) => {
   let allowedExtension = /(\.md)$/i;
   return result = !allowedExtension.exec(file) ? false : true;
-};
-validate.hasLinks = (array) => {
-  return result = array.length === 0 ? false : true;
 };
 function markdownLinkExtractor(path, markdown) {
   const links = [];
