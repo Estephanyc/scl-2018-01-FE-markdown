@@ -23,12 +23,11 @@ describe(
       return mdLinks.mdLinks('./md/no-links.md').then(data => expect(data).toEqual([]));
     });
     test('Deberia retornar un arreglo con los enlaces para un archivo con enlaces', () => {
-      expect.assertions(3);
+      expect.assertions(2);
       return mdLinks.mdLinks('./md/file.md').then(data => {
         let element = data[0];
         expect(element.href).toEqual('http://google.com');
         expect(element.text).toEqual('link to Google!');
-        expect(element.path).toEqual('./md/file.md');
       });
     });
   });
@@ -36,11 +35,9 @@ describe(
   'mdLinks.validateIsFileOrDirectory() Deberia validar si es archivo o directorio',
   () => {
     test('Deberia retornar file para un archivo', () => {
-      expect.assertions(1);
-      return mdLinks.validateIsFileOrDirectory('./md/no-links.md').then(data => expect(data).toEqual('file'));
+      expect(mdLinks.validateIsFileOrDirectory('./md/no-links.md')).toBe('file');
     });
     test('Deberia retornar directory para una carpeta', () => {
-      expect.assertions(1);
-      return mdLinks.validateIsFileOrDirectory('./md/').then(data => expect(data).toEqual('directory'));
+      expect(mdLinks.validateIsFileOrDirectory('./md/')).toBe('directory');
     });
-});
+  });

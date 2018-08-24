@@ -10,9 +10,9 @@ if (require.main === module) {
   mdLinks(args[0], options).then((links) => {
     links.forEach(element => {
       let result = '';
-      if (options.validate) result = `${element.path} : ${element.href} : ${element.text} : ${element.ok} : ${element.status}`;
+      if (options.validate) result = `${element.path} : ${element.line} : ${element.href} : ${element.text} : ${element.ok} : ${element.status}`;
       else if (options.stats) result = `total: ${element.total} ok : ${element.ok} fails: ${element.fails}`;
-      else result = `${element.path} : ${element.href} : ${element.text}`;
+      else result = `${element.path} : ${element.line} : ${element.href} : ${element.text}`;
       console.log(result);
     });
   }).catch((error) => {
