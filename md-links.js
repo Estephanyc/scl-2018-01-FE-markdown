@@ -47,7 +47,7 @@ mdLinks.processFile = (path) => {
     if (mdLinks.validateIsMarkDown(path)) {
       path = pathNode.resolve(path);
       let data = fs.readFileSync(path, 'utf8').split('\n');
-      let links = data.map(element => markdownLinkExtractor(path, element, data.indexOf(element) + 1));
+      let links = data.map(element => mdLinks.markdownLinkExtractor(path, element, data.indexOf(element) + 1));
       links = links.filter(element => element.length !== 0);
       if (links.length !== 0) links = links.reduce((elem1, elem2) => elem1.concat(elem2));
       if (validate) {
@@ -100,7 +100,7 @@ mdLinks.stats = (links)=>{
     fails: links.filter(link => link.ok === 'fail').length, 
   }];
 };
-function markdownLinkExtractor(path, markdown, line) {
+mdLinks.markdownLinkExtractor = (path, markdown, line) => {
   const links = [];
   const renderer = new Marked.Renderer();
   const linkWithImageSizeSupport = /^!?\[((?:\[[^\[\]]*\]|\\[\[\]]?|`[^`]*`|[^\[\]\\])*?)\]\(\s*(<(?:\\[<>]?|[^\s<>\\])*>|(?:\\[()]?|\([^\s\x00-\x1f()\\]*\)|[^\s\x00-\x1f()\\])*?(?:\s+=(?:[\w%]+)?x(?:[\w%]+)?)?)(?:\s+("(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)))?\s*\)/;

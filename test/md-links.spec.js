@@ -41,3 +41,54 @@ describe(
       expect(mdLinks.validateIsFileOrDirectory('./md/')).toBe('directory');
     });
   });
+describe(
+  'mdLinks.validateIsMarkDown() Deberia validar si es archivo md',
+  () => {
+    test('Deberia retornar false para un archivo que no es md', () => {
+      expect(mdLinks.validateIsMarkDown('./md/file.js')).toBe(false);
+    });
+    test('Deberia retornar true para un archivo md', () => {
+      expect(mdLinks.validateIsMarkDown('./md/file.md')).toBe(true);
+    });
+  });
+describe(
+  'mdLinks.markdownLinkExtractor() Deberia extraer los links de un texto',
+  () => {
+    test('Deberia retornar un arreglo con un objecto para un texto con enlaces', () => {
+      expect(mdLinks.markdownLinkExtractor('', '[GitHub](http://github.com)', 6))
+        .toEqual([{ 
+          'href': 'http://github.com',
+          'line': 6,
+          'path': '',
+          'text': 'GitHub' 
+        }]);
+    });
+    test('Deberia retornar un arreglo vacio si no  hay enlaces', () => {
+      expect(mdLinks.markdownLinkExtractor('', 'hola, este es el contenido', 9)).toEqual([]);
+    });
+  });
+describe(
+  'mdLinks.stats() Deberia dar estadisticas de total, ok y fails',
+  () => {
+    let link1 = {};
+    link1.ok = 'OK';
+    let link2 = {};
+    link2.ok = 'fail';
+    let array = [link1, link2];
+    test('Deberia retornar un arreglo con un objecto con las estadisticas', () => {
+      expect(mdLinks.stats(array)).toEqual([{total: 2,
+        'ok': 1,
+        'fails': 1}]);
+    });
+  });
+describe(
+  'mdLinks.validateUrl() Deberia validar los enlaces malos en un arreglo de objectos',
+  () => {
+    expect.assertions(1);
+    let links = mdLinks.markdownLinkExtractor('', '[GitHub](http://github.com)', 6);
+    return mdLinks.validateUrl(links).then((values) => {
+      Promise.all(values).then((values) => {
+        
+      });
+    });
+  });
