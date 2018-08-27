@@ -8,6 +8,7 @@ if (require.main === module) {
   if (args.includes('--stats')) options.stats = true;
 
   mdLinks(args[0], options).then((links) => {
+    if (links.length === 0) console.error('Error, no es un archivo markdown o no se encontrarón enlaces');
     links.forEach(element => {
       let result = '';
       if (options.validate) result = `${element.path} : ${element.line} : ${element.href} : ${element.text} : ${element.ok} : ${element.status}`;

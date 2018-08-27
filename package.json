@@ -1,5 +1,5 @@
 {
-    "name": "scl-2018-01-fe-markdown",
+    "name": "md-links-extractor",
     "version": "0.0.1",
     "description": "Esta libreria te permite encontrar los enlaces que hay en un archivo md",
     "main": "index.js",

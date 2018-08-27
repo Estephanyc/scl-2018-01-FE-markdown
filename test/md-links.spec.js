@@ -1,18 +1,22 @@
-const mdLinks = require('../md-links');
+const mdLinks = require('../md-links'); 
 describe(
-  'Casos donde deberia fallar la promesa', 
+  'Casos donde deberia fallar la promesa',
   () => {
     test('Si no se envia el path como argumento', () => {
       expect.assertions(1);
       return mdLinks.mdLinks().catch(e => expect(e).toMatch('Ingrese un archivo o directorio'));
     });
+});
+describe(
+  'Casos donde deberia devolver arreglo vacio', 
+  () => {
     test('Si no es archivo ni directorio', () => {
       expect.assertions(1);
-      return mdLinks.mdLinks('./md/f').catch(e => expect(e).toMatch('No es un archivo ni directorio'));
+      return mdLinks.mdLinks('./md/f').then(e => expect(e).toEqual([]));
     });
     test('Si el archivo enviado no es un md', () => {
       expect.assertions(1);
-      return mdLinks.mdLinks('./md/file.js').catch(e => expect(e).toMatch('No es un archivo markdown'));
+      return mdLinks.mdLinks('./md/file.js').then(e => expect(e).toEqual([]));
     });   
   });
 describe(
@@ -81,7 +85,7 @@ describe(
         'fails': 1}]);
     });
   });
-describe(
+/* describe(
   'mdLinks.validateUrl() Deberia validar los enlaces malos en un arreglo de objectos',
   () => {
     expect.assertions(1);
@@ -91,4 +95,4 @@ describe(
         
       });
     });
-  });
+  }); */
