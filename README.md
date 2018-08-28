@@ -1,4 +1,7 @@
 # Markdown link extractor
+```bash
+Versión 0.0.1 
+```
 
 Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 
@@ -99,3 +102,5 @@ mdLinks("./some/dir")
   })
   .catch(console.error);
   ```
+## Autor
+Estephany Carvajal Hernandez
