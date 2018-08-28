@@ -22,7 +22,7 @@ Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser te
 
 ##### Para ejecutar desde la terminal
 ```bash
-npm install -g https://github.com/Estephanyc/md-links/
+npm install -g https://github.com/Estephanyc/scl-2018-01-FE-markdown/
 ```
 ##### Para instalar como dependencia
 ```bash
