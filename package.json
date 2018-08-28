@@ -1,6 +1,6 @@
 {
     "name": "md-links-extractor",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Esta libreria te permite encontrar los enlaces que hay en un archivo md",
     "main": "index.js",
     "scripts": {

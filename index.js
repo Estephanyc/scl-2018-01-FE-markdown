@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const mdLinks = require('./md-links').mdLinks;
+const mdLinks = require('./lib/md-links').mdLinks;
 
 if (require.main === module) {
   const [, , ...args] = process.argv;

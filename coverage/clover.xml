@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1535465277079" clover="3.2.0">
-  <project timestamp="1535465277079" name="All files">
+<coverage generated="1535466922404" clover="3.2.0">
+  <project timestamp="1535466922404" name="All files">
     <metrics statements="83" coveredstatements="79" conditionals="26" coveredconditionals="25" methods="29" coveredmethods="27" elements="138" coveredelements="131" complexity="0" loc="83" ncloc="83" packages="1" files="1" classes="1">
-      <file name="md-links.js" path="/home/laboratoria/proyectos/scl-2018-01-FE-markdown/md-links.js">
+      <file name="md-links.js" path="/home/laboratoria/proyectos/scl-2018-01-FE-markdown/lib/md-links.js">
         <metrics statements="83" coveredstatements="79" conditionals="26" coveredconditionals="25" methods="29" coveredmethods="27"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>

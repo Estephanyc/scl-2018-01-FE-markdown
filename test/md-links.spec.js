@@ -1,4 +1,4 @@
-const mdLinks = require('../md-links'); 
+const mdLinks = require('../lib/md-links'); 
 describe(
   'Casos donde deberia fallar la promesa',
   () => {
