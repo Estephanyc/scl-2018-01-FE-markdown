@@ -51,3 +51,33 @@ La ruta ingresada puede ser absoluta o relativa y puede ser un archivo o un dire
 ```sh
 total: 3 ok : 2 fails: 1
 ```
+
+### Importar el modulo
+
+```js
+const mdLinks = require("md-links");
+
+mdLinks("./some/example.md")
+  .then(links => {
+    // => [{ href, text, file }]
+  })
+  .catch(console.error);
+
+mdLinks("./some/example.md", { validate: true })
+  .then(links => {
+    // => [{ href, text, file, status, ok }]
+  })
+  .catch(console.error);
+  
+mdLinks("./some/example.md", { stats: true })
+  .then(links => {
+    // => [{ href, text, file, status, ok }]
+  })
+  .catch(console.error);
+
+mdLinks("./some/dir")
+  .then(links => {
+    // => [{ href, text, file }]
+  })
+  .catch(console.error);
+  ```
