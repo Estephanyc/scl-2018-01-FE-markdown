@@ -6,7 +6,7 @@ describe(
       expect.assertions(1);
       return mdLinks.mdLinks().catch(e => expect(e).toMatch('Ingrese un archivo o directorio'));
     });
-});
+  });
 describe(
   'Casos donde deberia devolver arreglo vacio', 
   () => {
@@ -17,21 +17,50 @@ describe(
     test('Si el archivo enviado no es un md', () => {
       expect.assertions(1);
       return mdLinks.mdLinks('./md/file.js').then(e => expect(e).toEqual([]));
-    });   
-  });
-describe(
-  'Casos donde se resuelve la promesa',
-  () => {
-    test('Deberia retornar un arreglo vacio si no se encontrarón enlaces', () => {
+    });  
+    test('Si no se encontrarón enlaces', () => {
       expect.assertions(1);
       return mdLinks.mdLinks('./md/no-links.md').then(data => expect(data).toEqual([]));
-    });
+    }); 
+  });
+describe(
+  'Casos donde se resuelve con un arreglo de objetos',
+  () => {
     test('Deberia retornar un arreglo con los enlaces para un archivo con enlaces', () => {
       expect.assertions(2);
       return mdLinks.mdLinks('./md/file.md').then(data => {
         let element = data[0];
         expect(element.href).toEqual('http://google.com');
         expect(element.text).toEqual('link to Google!');
+      });
+    });
+    test('Deberia retornar un arreglo con los enlaces que estan dentro de una carpeta en la carpeta indicada', () => {
+      expect.assertions(1);
+      return mdLinks.mdLinks('./md/').then(data => {
+        let newArray = data.filter(element => element.text === 'Enlace en carpeta interna-recursivamente');
+        expect(newArray[0].text).toEqual('Enlace en carpeta interna-recursivamente');
+      });
+    });
+  });
+describe(
+  'Casos donde se envia el objecto options',
+  () => {
+    test('Deberia retornar un arreglo con los enlaces validados cuando  validate es true', () => {
+      expect.assertions(3);
+      return mdLinks.mdLinks('./md/file.md', {validate: true}).then(data => {
+        let element = data[0];
+        expect(element.href).toEqual('http://google.com');
+        expect(element.text).toEqual('link to Google!');
+        expect(element.ok).toEqual('OK');
+      });
+    });
+    test('Deberia retornar un arreglo con las estadisticas cuando stats es true', () => {
+      expect.assertions(3);
+      return mdLinks.mdLinks('./md/file.md', { stats: true }).then(data => {
+        let element = data[0];
+        expect(element.total).toEqual(4);
+        expect(element.ok).toEqual(3);
+        expect(element.fails).toEqual(1);
       });
     });
   });
@@ -85,14 +114,21 @@ describe(
         'fails': 1}]);
     });
   });
-/* describe(
-  'mdLinks.validateUrl() Deberia validar los enlaces malos en un arreglo de objectos',
+describe(
+  'mdLinks.validateUrl() Deberia validar los enlaces de un arreglo de objectos',
   () => {
-    expect.assertions(1);
-    let links = mdLinks.markdownLinkExtractor('', '[GitHub](http://github.com)', 6);
-    return mdLinks.validateUrl(links).then((values) => {
-      Promise.all(values).then((values) => {
-        
+    test('Deberia retornar ok para un enlace con estado ok', () => {
+      let links = mdLinks.markdownLinkExtractor('', '[GitHub](http://github.com)', 6);
+      expect.assertions(1);
+      return mdLinks.validateUrl(links).then((values) => {
+        expect(values[0].ok).toEqual('OK');
+      });  
+    }); 
+    test('Deberia retornar fails para un enlace con estado fail', () => {
+      let links = mdLinks.markdownLinkExtractor('', '[Estephany](http://carvajalhernandezestephany.com)', 6);
+      expect.assertions(1);
+      return mdLinks.validateUrl(links).then((values) => {
+        expect(values[0].ok).toEqual('fail');
       });
-    });
-  }); */
+    }); 
+  }); 

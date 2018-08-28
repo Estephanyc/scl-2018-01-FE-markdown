@@ -32,7 +32,6 @@ mdLinks.mdLinks = (path, options) => {
           .catch(err => reject(err)));
       });
       Promise.all(promises).then(values => resolve(values.reduce((elem1, elem2) => elem1.concat(elem2))));
-
     } else {
       resolve([]);
     }
@@ -40,16 +39,19 @@ mdLinks.mdLinks = (path, options) => {
 };
 mdLinks.processFile = (path) => {
   return new Promise((resolve, reject) => {
-    let data = fs.readFileSync(path, 'utf8').split('\n');
+    let data;
+    try {
+      data = fs.readFileSync(path, 'utf8').split('\n');
+    } catch (err) {
+      reject(err);
+    }
     let links = data.map(element => mdLinks.markdownLinkExtractor(path, element, data.indexOf(element) + 1));
     links = links.filter(element => element.length !== 0);
     if (links.length !== 0) links = links.reduce((elem1, elem2) => elem1.concat(elem2));
     if (validate) {
       mdLinks.validateUrl(links).then((values) =>{
-        Promise.all(values).then((values) =>{
-          if (stats) resolve(mdLinks.stats(values));
-          else resolve(values);
-        });
+        if (stats) resolve(mdLinks.stats(values));
+        else resolve(values);
       });
     } else resolve(links);
   });
@@ -69,7 +71,9 @@ mdLinks.validateUrl = (links) =>{
           return link;
         })
       );
-      resolve(promises);
+    });
+    Promise.all(promises).then((values) => {
+      resolve(values);
     });
   });
 };

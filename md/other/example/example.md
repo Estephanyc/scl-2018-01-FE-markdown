@@ -1,4 +1,4 @@
-[link to Google!](http://google.com)
+[Enlace en carpeta interna-recursivamente](http://google.com)
 http://github.com - automatic!
 linea 3
 [GitHub](http://github.com)
