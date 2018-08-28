@@ -22,6 +22,10 @@ Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser te
 
 ##### Para ejecutar desde la terminal
 ```bash
+ npm install -g md-links-extractor
+ ```
+ o
+```bash
 npm install -g https://github.com/Estephanyc/scl-2018-01-FE-markdown/
 ```
 ##### Para instalar como dependencia
@@ -72,7 +76,7 @@ las siguientes propiedades:
 - `file`: Ruta del archivo donde se encontró el link.
 ###### Ejemplo
 ```js
-const mdLinks = require("md-links");
+const mdLinks = require("md-links-extractor");
 
 mdLinks("./some/example.md")
   .then(links => {
