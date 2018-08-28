@@ -32,6 +32,7 @@ npm i md-links-extractor
 ## Uso
 
 ### Linea de comandos
+La ruta ingresada puede ser absoluta o relativa y puede ser un archivo o un directorio
 
 `$ md-links ./some/example.md`
 ```sh
