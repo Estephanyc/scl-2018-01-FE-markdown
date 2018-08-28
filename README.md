@@ -1,5 +1,5 @@
 # Markdown link extractor
-`Versión 0.0.1 `
+`Versión 0.0.2 `
 
 Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 
@@ -98,5 +98,13 @@ mdLinks("./some/dir")
   })
   .catch(console.error);
   ```
+### Versiones
+`0.0.2`
+- Se pueden validar los enlaces de archivos individuales o archivos dentro de carpetas
+- Se pueden obtener estadisticas de archivos individuales o archivos dentro de carpetas
+- Muestra los enlaces de un archivo markdown
+`0.0.1` 
+- Muestra los enlaces de un archivo markdown 
+
 ### Autor
 Estephany Carvajal Hernandez
