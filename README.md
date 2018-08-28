@@ -54,6 +54,24 @@ total: 3 ok : 2 fails: 1
 
 ### Importar el modulo
 
+#### `mdLinks(path, options)`
+##### Argumentos
+
+- `path`: Ruta absoluta o relativa al archivo.
+
+- `options`: Un objeto con las siguientes propiedades:
+  - `validate`: Valor que determina si se desea validar los links encontrados en el archivo. (tipo de dato booleano)
+  - `stats`: Valor que determina si se desea obtener estadisticas de los enlaces del archivo. (tipo de dato booleano)
+
+##### Valor de retorno
+
+La función retorna una promesa con un arreglo  de objetos, donde cada objeto representa un link y contiene
+las siguientes propiedades:
+
+- `href`: URL encontrada.
+- `text`: Texto que aparecía dentro del link (`<a>`).
+- `file`: Ruta del archivo donde se encontró el link.
+
 ```js
 const mdLinks = require("md-links");
 
