@@ -3,7 +3,7 @@
 
 Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 
-## Caracteristicas
+### Caracteristicas
 
 - Extrae enlaces de un archivo md
 - Información del enlace:
@@ -14,11 +14,11 @@ Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 - Se puede importar como modulo
 - Se puede usar por medio de la terminal
 
-## Porque Markdown link extractor?
+### Porque Markdown link extractor?
 
 Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser tedioso revisarlos uno a uno para ver su estado o para obtener estadísticas, Markdown Link Extractor te permite indicando la ruta de un archivo o carpeta obtener toda esta información.
 
-## Instalación
+### Instalación
 
 #### npm
 
@@ -30,9 +30,9 @@ npm install Estephanyc/md-links
 npm i md-links-extractor
 ```
 
-## Uso
+### Uso
 
-### Linea de comandos
+#### Linea de comandos
 La ruta ingresada puede ser absoluta o relativa y puede ser un archivo o un directorio
 
 `$ md-links ./some/example.md`
@@ -53,10 +53,10 @@ La ruta ingresada puede ser absoluta o relativa y puede ser un archivo o un dire
 total: 3 ok : 2 fails: 1
 ```
 
-### Importar el modulo
+#### Importar el modulo
 
-#### `mdLinks(path, options)`
-##### Argumentos
+##### `mdLinks(path, options)`
+###### Argumentos
 
 - `path`: Ruta absoluta o relativa al archivo.
 
@@ -64,7 +64,7 @@ total: 3 ok : 2 fails: 1
   - `validate`: Valor que determina si se desea validar los links encontrados en el archivo. (tipo de dato booleano)
   - `stats`: Valor que determina si se desea obtener estadisticas de los enlaces del archivo. (tipo de dato booleano)
 
-##### Valor de retorno
+###### Valor de retorno
 
 La función retorna una promesa con un arreglo  de objetos, donde cada objeto representa un link y contiene
 las siguientes propiedades:
@@ -72,7 +72,7 @@ las siguientes propiedades:
 - `href`: URL encontrada.
 - `text`: Texto que aparecía dentro del link (`<a>`).
 - `file`: Ruta del archivo donde se encontró el link.
-#### Ejemplo
+###### Ejemplo
 ```js
 const mdLinks = require("md-links");
 
@@ -100,5 +100,5 @@ mdLinks("./some/dir")
   })
   .catch(console.error);
   ```
-## Autor
+### Autor
 Estephany Carvajal Hernandez
