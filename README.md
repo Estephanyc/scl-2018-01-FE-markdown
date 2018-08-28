@@ -71,25 +71,25 @@ las siguientes propiedades:
 - `href`: URL encontrada.
 - `text`: Texto que aparecía dentro del link (`<a>`).
 - `file`: Ruta del archivo donde se encontró el link.
-
+#### Ejemplo
 ```js
 const mdLinks = require("md-links");
 
 mdLinks("./some/example.md")
   .then(links => {
-    // => [{ href, text, file }]
+    // => [{ file, line, href, text }]
   })
-  .catch(console.error);
+  .catch(err)
 
 mdLinks("./some/example.md", { validate: true })
   .then(links => {
-    // => [{ href, text, file, status, ok }]
+    // => [{ file, line, href, text, ok, status }]
   })
-  .catch(console.error);
+  .catch(err)
   
 mdLinks("./some/example.md", { stats: true })
   .then(links => {
-    // => [{ href, text, file, status, ok }]
+    // => [{ total, ok,fails }]
   })
   .catch(console.error);
 
