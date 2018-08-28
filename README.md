@@ -1,7 +1,5 @@
 # Markdown link extractor
-```bash
-Versión 0.0.1 
-```
+`Versión 0.0.1 `
 
 Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 
