@@ -20,16 +20,14 @@ Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser te
 
 ### Instalación
 
-#### npm
-
+##### Para ejecutar desde la terminal
 ```bash
-npm install Estephanyc/md-links
+npm install -g https://github.com/Estephanyc/md-links/
 ```
-
+##### Para instalar como dependencia
 ```bash
-npm i md-links-extractor
+npm i md-links-extractor --save
 ```
-
 ### Uso
 
 #### Linea de comandos
