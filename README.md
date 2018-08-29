@@ -102,6 +102,12 @@ mdLinks("./some/dir")
   })
   .catch(console.error);
   ```
+  
+### Demo
+![files](https://user-images.githubusercontent.com/38702172/44786053-4a398700-ab69-11e8-93c2-d914bd73a0a6.gif)
+
+![dir](https://user-images.githubusercontent.com/38702172/44786065-57ef0c80-ab69-11e8-80b5-4607c2579ffa.gif)
+
 ### Versiones
 `0.0.2`
 - Se pueden validar los enlaces de archivos individuales o archivos dentro de carpetas
