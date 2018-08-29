@@ -71,8 +71,9 @@ total: 3 ok : 2 fails: 1
 Una promesa con un arreglo  de objetos, cada objeto representa un link y contiene las siguientes propiedades:
 
 - `href`: URL encontrada.
-- `text`: Texto que aparecía dentro del link (`<a>`).
+- `text`: Texto que aparecía dentro del link.
 - `file`: Ruta del archivo donde se encontró el link.
+- `line`: Linea donde se encontró el link.
 
 ###### Ejemplo
 ```js
