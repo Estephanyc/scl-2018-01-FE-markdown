@@ -7,7 +7,7 @@ Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 
 - Extrae enlaces de un archivo md
 - Información del enlace:
-  Link, linea, texto, estado
+  link, linea, texto, estado
 - Opción de validar los enlaces 
 - Opción de estadísticas de los enlaces 
 - Recorre carpetas recursivamente
@@ -20,7 +20,11 @@ Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser te
 
 ### Instalación
 
-##### Para ejecutar desde la terminal
+##### Para instalar globalmente y usar desde la terminal
+```bash
+ npm install -g md-links-extractor
+ ```
+ o
 ```bash
 npm install -g https://github.com/Estephanyc/scl-2018-01-FE-markdown/
 ```
@@ -64,15 +68,16 @@ total: 3 ok : 2 fails: 1
 
 ###### Valor de retorno
 
-La función retorna una promesa con un arreglo  de objetos, donde cada objeto representa un link y contiene
-las siguientes propiedades:
+Una promesa con un arreglo  de objetos, cada objeto representa un link y contiene las siguientes propiedades:
 
 - `href`: URL encontrada.
-- `text`: Texto que aparecía dentro del link (`<a>`).
+- `text`: Texto que aparecía dentro del link.
 - `file`: Ruta del archivo donde se encontró el link.
+- `line`: Linea donde se encontró el link.
+
 ###### Ejemplo
 ```js
-const mdLinks = require("md-links");
+const mdLinks = require("md-links-extractor");
 
 mdLinks("./some/example.md")
   .then(links => {
@@ -98,13 +103,25 @@ mdLinks("./some/dir")
   })
   .catch(console.error);
   ```
+  
+### Demo
+![files](https://user-images.githubusercontent.com/38702172/44786053-4a398700-ab69-11e8-93c2-d914bd73a0a6.gif)
+![dir](https://user-images.githubusercontent.com/38702172/44786065-57ef0c80-ab69-11e8-80b5-4607c2579ffa.gif)
+
 ### Versiones
 `0.0.2`
 - Se pueden validar los enlaces de archivos individuales o archivos dentro de carpetas
 - Se pueden obtener estadisticas de archivos individuales o archivos dentro de carpetas
-- Muestra los enlaces de un archivo markdown
+- Muestra los enlaces de un archivo markdown  
+
 `0.0.1` 
 - Muestra los enlaces de un archivo markdown 
+
+### npm
+[Proyecto publicado en npm](https://www.npmjs.com/package/md-links-extractor)
+
+### Planeación
+[Trello](https://trello.com/b/rOVgvZNp/markdown)
 
 ### Autor
 Estephany Carvajal Hernandez
