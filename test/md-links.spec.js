@@ -4,7 +4,7 @@ describe(
   () => {
     test('Si no se envia el path como argumento', () => {
       expect.assertions(1);
-      return mdLinks.mdLinks().catch(e => expect(e).toMatch('Ingrese un archivo o directorio'));
+      return mdLinks.mdLinks().catch(err => expect(err).toMatch('Ingrese un archivo o directorio'));
     });
   });
 describe(
@@ -12,11 +12,11 @@ describe(
   () => {
     test('Si no es archivo ni directorio', () => {
       expect.assertions(1);
-      return mdLinks.mdLinks('./md/f').then(e => expect(e).toEqual([]));
+      return mdLinks.mdLinks('./md/f').then(err => expect(err).toEqual([]));
     });
     test('Si el archivo enviado no es un md', () => {
       expect.assertions(1);
-      return mdLinks.mdLinks('./md/file.js').then(e => expect(e).toEqual([]));
+      return mdLinks.mdLinks('./md/file.js').then(err => expect(err).toEqual([]));
     });  
     test('Si no se encontrarón enlaces', () => {
       expect.assertions(1);
@@ -131,4 +131,15 @@ describe(
         expect(values[0].ok).toEqual('fail');
       });
     }); 
+  }); 
+describe(
+  'mdLinks.processFile() Deberia fallar cuando la ruta del archivo no es valida',
+  () => {
+    test('Deberia fallar ', () => {
+      expect.assertions(1);
+      return mdLinks.processFile('../md/fi').catch((err) => {
+        console.log(err)
+        expect(err).toEqual('No es un archivo o directorio');
+      });
+    });
   }); 

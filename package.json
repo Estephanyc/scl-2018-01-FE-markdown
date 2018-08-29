@@ -4,6 +4,8 @@
     "description": "Esta libreria te permite encontrar los enlaces que hay en un archivo md",
     "main": "index.js",
     "scripts": {
+        "eslint": "eslint --ext .js lib/ test/ ",
+        "pretest": "npm run eslint",
         "test": "jest"
     },
     "repository": {
@@ -27,6 +29,7 @@
         "node-fetch": "^2.2.0"
     },
     "devDependencies": {
+        "eslint": "^5.4.0",
         "jest": "^23.5.0"
     },
     "jest": {
