@@ -104,9 +104,7 @@ mdLinks("./some/dir")
   ```
   
 ### Demo
-Archivos
 ![files](https://user-images.githubusercontent.com/38702172/44786053-4a398700-ab69-11e8-93c2-d914bd73a0a6.gif)
-Carpetas
 ![dir](https://user-images.githubusercontent.com/38702172/44786065-57ef0c80-ab69-11e8-80b5-4607c2579ffa.gif)
 
 ### Versiones
