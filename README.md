@@ -8,15 +8,15 @@ Markdown link extractor te permite ver los enlaces que hay en un archivo md.
 - Extrae enlaces de un archivo md
 - Información del enlace:
   link, linea, texto, estado
-- Opción de validar los enlaces 
-- Opción de estadísticas de los enlaces 
+- Opción de validar los enlaces individuales y en carpetas 
+- Opción de estadísticas de enlaces en los archivos y carpetas
 - Recorre carpetas recursivamente
 - Se puede importar como modulo
 - Se puede usar por medio de la terminal
 
 ### Porque Markdown link extractor?
 
-Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser tedioso revisarlos uno a uno para ver su estado o para obtener estadísticas, Markdown Link Extractor te permite indicando la ruta de un archivo o carpeta obtener toda esta información.
+Aveces tenemos uno o múltiples archivos md que contienen enlaces y puede ser tedioso revisarlos uno a uno para ver su estado o para obtener estadísticas, Markdown Link Extractor te permite indicando la ruta de un archivo o carpeta obtener esta información.
 
 ### Instalación
 
