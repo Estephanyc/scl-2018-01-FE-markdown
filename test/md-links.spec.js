@@ -138,7 +138,6 @@ describe(
     test('Deberia fallar ', () => {
       expect.assertions(1);
       return mdLinks.processFile('../md/fi').catch((err) => {
-        console.log(err)
         expect(err).toEqual('No es un archivo o directorio');
       });
     });
