@@ -120,6 +120,10 @@ mdLinks("./some/dir")
 ### npm
 [Proyecto publicado en npm](https://www.npmjs.com/package/md-links-extractor)
 
+### Test
+Test implementados con Jest con 95% de cobertura
+`npm test` 
+
 ### Planeación
 [Trello](https://trello.com/b/rOVgvZNp/markdown)
 
