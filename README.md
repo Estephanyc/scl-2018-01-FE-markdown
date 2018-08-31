@@ -122,7 +122,9 @@ mdLinks("./some/dir")
 
 ### Test
 Test implementados con Jest con 95% de cobertura
-`npm test` 
+```bash
+npm test 
+ ```
 
 ### Planeación
 [Trello](https://trello.com/b/rOVgvZNp/markdown)
