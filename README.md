@@ -111,6 +111,7 @@ mdLinks("./some/dir")
 ### Versiones
 `0.0.3`
 - Demo incluido en README.md
+
 `0.0.2`
 - Se pueden validar los enlaces de archivos individuales o archivos dentro de carpetas
 - Se pueden obtener estadisticas de archivos individuales o archivos dentro de carpetas
