@@ -77,7 +77,7 @@ Una promesa con un arreglo  de objetos, cada objeto representa un link y contien
 
 ###### Ejemplo
 ```js
-const mdLinks = require("md-links-extractor");
+const mdLinks  = require("md-links-extractor");
 
 mdLinks("./some/example.md")
   .then(links => {
